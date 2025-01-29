@@ -5,7 +5,7 @@ import (
 	"sync"
 )
 
-func main() {
+func PrintNumbers() {
 	//write a code that takes in 2 go routines
 	// one prints the odd number and the other prints even numbers
 	// print numbers from 1 to 10 sequentially by making the go routines communicate
@@ -37,3 +37,7 @@ func main() {
 	close(oddCh)
 	close(evenCh)
 }
+
+// func main() {
+// 	PrintNumbers()
+// }
