@@ -41,6 +41,9 @@ func CalcParm(s Shape) {
 }
 
 func InterfaceImpl() {
+	//other than this do not forget to include the part where in initilisation functions
+	// the return type can be the interface but the actual return value can be the struture that impliments the interface
+	// this also ensures that all the methods in interface are implimented by structure
 
 	sh := []Shape{
 		Rect{4, 5},
