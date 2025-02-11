@@ -61,8 +61,8 @@ func display(l *list) {
 	}
 }
 
-func main() {
-	list1 := &list{1, &list{3, &list{5, nil}}}
-	list2 := &list{2, &list{4, &list{6, nil}}}
-	mergeLists(list1, list2)
-}
+// func main() {
+// 	list1 := &list{1, &list{3, &list{5, nil}}}
+// 	list2 := &list{2, &list{4, &list{6, nil}}}
+// 	mergeLists(list1, list2)
+// }
