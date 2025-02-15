@@ -5,6 +5,7 @@ import (
 	"path/filepath"
 
 	"github.com/jmoiron/sqlx"
+	_ "github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog/log"
 )
 
@@ -30,6 +31,7 @@ func CreateSchema(db *sqlx.DB) {
 	CREATE TABLE todolist(
 		id CHAR(40) NOT NULL,
 		item VARCHAR(250) NOT NULL,
+		item_order   INTEGER NOT NULL,
 		CONSTRAINT rid_pkey PRIMARY KEY (id)
 	);
 	`
