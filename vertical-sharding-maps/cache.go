@@ -1,34 +1,57 @@
 package main
 
-import "log"
+import (
+	"log"
+	"sync"
+)
 
-type Cache map[string]any
-
-func NewCache() Cache {
-	return Cache{}
+type Cache struct {
+	sync.RWMutex
+	data map[string]any
 }
 
-func (m Cache) Get(key string) (any, bool) {
-	val := m[key]
+func NewCache() Cache {
+	return Cache{
+		data: make(map[string]any),
+	}
+}
+
+func (m *Cache) Get(key string) (any, bool) {
+	m.RLock()
+	defer m.RUnlock()
+
+	val := m.data[key]
 	return val, val != nil
 }
 
-func (m Cache) Set(key string, val any) {
-	m[key] = val
+func (m *Cache) Set(key string, val any) {
+	m.Lock()
+	defer m.Unlock()
+
+	m.data[key] = val
 }
 
-func (m Cache) Delete(key string) {
-	delete(m, key)
+func (m *Cache) Delete(key string) {
+	m.Lock()
+	defer m.Unlock()
+
+	delete(m.data, key)
 }
 
-func (m Cache) Contains(key string) bool {
-	val := m[key]
+func (m *Cache) Contains(key string) bool {
+	m.RLock()
+	defer m.RUnlock()
+
+	val := m.data[key]
 	return val != nil
 }
 
-func (m Cache) Keys() []string {
-	keys := make([]string, 0, len(m))
-	for k := range m {
+func (m *Cache) Keys() []string {
+	m.RLock()
+	defer m.RUnlock()
+
+	keys := make([]string, 0, len(m.data))
+	for k := range m.data {
 		keys = append(keys, k)
 	}
 	return keys
