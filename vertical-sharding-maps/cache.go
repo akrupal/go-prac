@@ -29,6 +29,8 @@ func (m ShardMap) getShardIndex(key string) int {
 	checksum := sha1.Sum([]byte(key))
 	hash := int(checksum[0])
 
+	// log.Printf("key: %v, index: %v", key, hash%len(m)) //to see the index of the created map
+
 	return hash % len(m)
 }
 
