@@ -14,5 +14,11 @@ Authorization: Basic ajinkya:aj1234
 {
     "title": "title 1",
     "description": "desc 1",
-    "url": "https://youtube.com/abcd"
+    "url": "https://youtube.com/abcd",
+    "author": {
+        "firstname": "test",
+        "lastname": "Abc",
+        "age": 20,
+        "email": "abc@gmail.com"
+    }
 }

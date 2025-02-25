@@ -5,6 +5,7 @@ import (
 	middleware "gin-poc/middlewares"
 	"gin-poc/service"
 	"io"
+	"net/http"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -39,7 +40,12 @@ func main() {
 		ctx.JSON(200, videoController.FindAll())
 	})
 	server.POST("/videos", func(ctx *gin.Context) {
-		ctx.JSON(200, videoController.Save(ctx))
+		err := videoController.Save(ctx)
+		if err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		} else {
+			ctx.JSON(http.StatusOK, gin.H{"message": "Video input valid"})
+		}
 	})
 	server.Run(":8080")
 }
