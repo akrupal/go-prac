@@ -1,0 +1,15 @@
+GET http://localhost:8080/test
+
+###
+
+GET http://localhost:8080/videos
+
+###
+
+POST http://localhost:8080/videos
+
+{
+    "title": "title 2",
+    "description": "desc 2",
+    "url": "https://youtube.com/abcd"
+}
