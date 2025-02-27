@@ -9,18 +9,20 @@ import (
 
 // RateLimiter struct encapsulates rate limiting logic
 type RateLimiter struct {
+	identifier     int
 	maxRequests    int
 	interval       time.Duration
 	mu             sync.Mutex
-	clientRequests map[string][]time.Time
+	clientRequests map[int][]time.Time
 }
 
 // NewRateLimiter initializes a new rate limiter
-func NewRateLimiter(maxRequests int, interval time.Duration) *RateLimiter {
+func NewRateLimiter(maxRequests int, interval time.Duration, identifier int) *RateLimiter {
 	return &RateLimiter{
+		identifier:     identifier,
 		maxRequests:    maxRequests,
 		interval:       interval,
-		clientRequests: make(map[string][]time.Time),
+		clientRequests: make(map[int][]time.Time),
 	}
 }
 
@@ -30,12 +32,12 @@ func (rl *RateLimiter) LimitMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		rl.mu.Lock()
 		defer rl.mu.Unlock()
 
-		clientIP := r.RemoteAddr // Identifying user by IP (better: use API keys or user ID)
-		fmt.Println(clientIP)
+		// clientIP := r.RemoteAddr // Identifying user by IP (better: use API keys or user ID)
+		// fmt.Println(clientIP)
 		now := time.Now()
 
 		// Get or initialize request timestamps for this client
-		requests, exists := rl.clientRequests[clientIP]
+		requests, exists := rl.clientRequests[rl.identifier]
 		fmt.Println(requests)
 		fmt.Println(exists)
 		if !exists {
@@ -59,7 +61,7 @@ func (rl *RateLimiter) LimitMiddleware(next http.HandlerFunc) http.HandlerFunc {
 		// Add new request timestamp
 		newRequests = append(newRequests, now)
 		fmt.Println(newRequests)
-		rl.clientRequests[clientIP] = newRequests
+		rl.clientRequests[rl.identifier] = newRequests
 
 		// Proceed to the actual handler
 		next(w, r)
@@ -73,7 +75,7 @@ func helloWorld(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	// Initialize rate limiter with 2 requests per 5 seconds
-	limiter := NewRateLimiter(2, 5*time.Second)
+	limiter := NewRateLimiter(2, 5*time.Second, 1)
 
 	http.HandleFunc("/hello", limiter.LimitMiddleware(helloWorld))
 
