@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // func main() {
 // 	//the point to remember here is if you have a slice with more capacity than it has elements
 // 	// the same slice is referenced if you allocate it to some other slice and changing at one place would change at both
@@ -9,4 +11,13 @@ package main
 // 	arr[0] = 100
 // 	fmt.Println(arr)    // [100 2 3]
 // 	fmt.Println(newArr) // [100 2 3 4]
+// }
+
+// func main() {
+// 	arr := make([]int, 0, 3)
+// 	arr = append(arr, 1, 2)
+// 	newArr := append(arr, 3)
+// 	arr[0] = 4
+// 	fmt.Println(arr)
+// 	fmt.Println(newArr)
 // }
