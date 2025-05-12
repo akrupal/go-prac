@@ -24,19 +24,19 @@ func (s *SMSSender) Notify(message string) {
 	fmt.Printf("%v received from %v\n", message, s.b)
 }
 
-func main() {
+// func main() {
 
-	i := []Notifier{
-		&EmailSender{
-			a: "Email",
-		},
-		&SMSSender{
-			b: "SMS",
-		},
-	}
+// 	i := []Notifier{
+// 		&EmailSender{
+// 			a: "Email",
+// 		},
+// 		&SMSSender{
+// 			b: "SMS",
+// 		},
+// 	}
 
-	for _, r := range i {
-		r.Notify("message")
-	}
+// 	for _, r := range i {
+// 		r.Notify("message")
+// 	}
 
-}
+// }
