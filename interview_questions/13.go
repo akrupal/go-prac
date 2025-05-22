@@ -1,6 +1,6 @@
 package main
 
-import "fmt"
+// import "fmt"
 
 // func main() {
 // 	//the point to remember here is if you have a slice with more capacity than it has elements
