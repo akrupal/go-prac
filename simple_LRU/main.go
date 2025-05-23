@@ -6,58 +6,67 @@ import (
 )
 
 type LRUCache struct {
-	c int
-	l *list.List
-	m map[int]*list.Element
+	cap int
+	l   *list.List
+	m   map[int]*list.Element
 }
 
-func initialiseCashe(cap int) LRUCache {
-	return LRUCache{
-		c: cap,
-		l: list.New(),
-		m: make(map[int]*list.Element),
+type mapValue struct {
+	key   int
+	value int
+}
+
+func initialiseCache(cap int) *LRUCache {
+	return &LRUCache{
+		cap: cap,
+		l:   list.New(),
+		m:   make(map[int]*list.Element),
 	}
 }
 
-func (lr *LRUCache) Get(key int) {
-	el, ok := lr.m[key]
-	if ok {
-		val := el.Value
-		fmt.Println(val)
-		lr.l.PushFront(el)
+func (lru *LRUCache) Put(k, v int) {
+	el, exist := lru.m[k]
+	if exist {
+		fmt.Println("org value was:", el.Value)
+		el.Value = mapValue{k, v}
+		lru.m[k] = el
+		lru.l.MoveToFront(el)
 	} else {
-		fmt.Println("Value not found for key ", key)
-	}
-}
-
-func (lr *LRUCache) Put(key, value int) {
-	el, ok := lr.m[key]
-	if ok {
-		e := lr.l.PushFront(el)
-		lr.m[key] = e
-	} else {
-		e := lr.l.PushFront(value)
-		lr.m[key] = e
+		e := lru.l.PushFront(mapValue{k, v})
+		lru.m[k] = e
 	}
 
-	if lr.l.Len() > lr.c {
-		e := lr.l.Back()
-		a, ok := e.Value.(int)
+	if lru.l.Len() > lru.cap {
+		elemVal := lru.l.Remove(lru.l.Back())
+		e, ok := elemVal.(mapValue)
 		if ok {
-			fmt.Println("More than capacity removing last element with value ", a)
+			fmt.Println("Capacity exceeded removing last element with key", e.key, "and value", e.value)
+			delete(lru.m, e.key)
 		}
-		lr.l.Remove(e)
-		delete(lr.m, a/10)
 	}
+}
+
+func (lru *LRUCache) Get(k int) {
+	el, exist := lru.m[k]
+	if exist {
+		fmt.Println("got:", el)
+		lru.l.MoveToFront(el)
+	} else {
+		fmt.Println("Element not found for key", k)
+	}
+}
+
+func (lru *LRUCache) DisplayList() {
 }
 
 func main() {
-	cache := initialiseCashe(3)
-	cache.Put(1, 10)
-	cache.Put(2, 20)
-	cache.Put(3, 30)
-	cache.Put(4, 40)
 
-	cache.Get(1)
-	cache.Get(4)
+	lru := initialiseCache(3)
+	lru.Put(1, 21)
+	lru.Put(2, 42)
+	lru.Put(3, 100)
+	lru.Put(4, 56)
+	lru.Get(1)
+	lru.Get(3)
+
 }
