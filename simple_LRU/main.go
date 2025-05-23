@@ -57,6 +57,11 @@ func (lru *LRUCache) Get(k int) {
 }
 
 func (lru *LRUCache) DisplayList() {
+	fmt.Println("Displaying the contents of list")
+	for e := lru.l.Front(); e != nil; e = e.Next() {
+		fmt.Println(e)
+	}
+	fmt.Println("")
 }
 
 func main() {
@@ -65,8 +70,11 @@ func main() {
 	lru.Put(1, 21)
 	lru.Put(2, 42)
 	lru.Put(3, 100)
+	lru.DisplayList()
 	lru.Put(4, 56)
+	lru.DisplayList()
 	lru.Get(1)
 	lru.Get(3)
+	lru.DisplayList()
 
 }
