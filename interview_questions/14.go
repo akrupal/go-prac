@@ -53,3 +53,66 @@ package main
 // difference between primary key unique and foriegn key
 // can unique be null?
 // difference between where and having in sql
+
+//R2
+
+//one goroutine that sends values from 1-10
+// func main() {
+// 	ch := make(chan int)
+// 	wg := &sync.WaitGroup{}
+// 	wg.Add(1)
+// 	go func() {
+// 		for i := 1; i <= 10; i++ {
+// 			ch <- i
+// 		}
+// 		close(ch)
+// 		wg.Done()
+// 	}()
+
+// 	//infinite for loop in order to accomodate the condition where we receive values from multiple go routines
+// 	for {
+// 		val, ok := <-ch
+// 		if ok {
+// 			fmt.Println(val)
+// 		} else {
+// 			break
+// 		}
+// 	}
+// 	wg.Wait()
+// }
+
+//design a URL shortner
+//length of short url?
+// 6-7 charecters
+
+// api to shorten
+// function rand
+// letters := []rune{a-z, A-Z, 0-9}
+// len(letters)
+// i:=0
+// str := ""
+// for i<charLimit{
+// values rand num is wihtin len letters
+// str = append(str,letters[i])
+// }
+// code
+
+// add this to a go routine(
+// save it to postgres
+// table(
+// code
+// URL
+// )
+
+// save to redis key code value URL
+// )
+
+// //api when the user tries to use this
+// localhost:8080/{code}
+
+// r.HandleFunc("/{code}", handler)
+// a check for wheter the code exists
+// check if the code exists in you redis
+// if not query to postgres
+// we get actual URL
+// http.redirect(URL)
