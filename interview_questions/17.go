@@ -3,7 +3,7 @@ package main
 // given a slice of URL's write code that makes a get call to the URL concurrently and store the status code and response in a map with the URL as the key
 
 import (
-	"fmt"
+	// "fmt"
 	"io"
 	"net/http"
 	"sync"
